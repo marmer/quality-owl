@@ -9,6 +9,9 @@ import javax.inject.Inject
 @ApplicationScoped
 class DataFetchJob constructor() {
 
+    /**
+     * Hacky Workaround because constructor injection does not work for RestClient
+     */
     @Inject
     @field: RestClient
     lateinit internal var sonarClient: SonarClient
