@@ -1,1 +1,13 @@
-quarkus.application.name=Quality Owl
+quarkus:
+  application:
+    name: Quality Owl
+"%dev":
+  quarkus:
+    log:
+      console:
+        json: false
+"%test":
+  quarkus:
+    log:
+      console:
+        json: false
