@@ -1,6 +1,9 @@
 quarkus:
   application:
     name: Quality Owl
+  rest-client:
+    sonar:
+      url: https://sonarcloud.io/api
 "%dev":
   quarkus:
     log:
