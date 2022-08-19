@@ -1,9 +1,15 @@
+sonar:
+  url: https://sonarcloud.io/api
+  fetch-interval-cron: 1h
+  username-or-token: ""
 quarkus:
   application:
     name: Quality Owl
   rest-client:
     sonar:
-      url: https://sonarcloud.io/api
+      url: ${sonar.url}
+  banner:
+    path: banner.txt
 "%dev":
   quarkus:
     log:

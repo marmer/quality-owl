@@ -7,7 +7,7 @@ import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
 @ApplicationScoped
-class DataFetchJob constructor() {
+class DataFetchJob(var sonarConfig: SonarConfig) {
 
     /**
      * Hacky Workaround because constructor injection does not work for RestClient
@@ -16,10 +16,11 @@ class DataFetchJob constructor() {
     @field: RestClient
     lateinit internal var sonarClient: SonarClient
 
-    @Scheduled(every = "10s")
+    @Scheduled(every = "{sonar.fetch-interval-cron}")
     fun fetchData() {
-        Log.infof("Weeheh!")
-        Log.info(sonarClient.getCoverage("marmer_code-brunch-calc", "coverage"))
+        Log.infof("Weeheh ... Fetching from: ${sonarConfig.url()}")
+        Log.infof("Weeheh ... For User or Token: ${sonarConfig.usernameOrToken().orElse("Mööp")}")
+//        Log.info(sonarClient.getCoverage("marmer_code-brunch-calc", "coverage"))
     }
 }
 
