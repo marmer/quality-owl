@@ -14,5 +14,5 @@ interface SonarClient {
     fun getCoverage(
         @QueryParam("component") component: String,
         @QueryParam("metricKeys") metricKeys: String
-    ): String;
+    ): String
 }

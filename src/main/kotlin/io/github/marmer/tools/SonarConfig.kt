@@ -1,20 +1,31 @@
 package io.github.marmer.tools
 
-import io.smallrye.config.ConfigMapping
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import java.util.*
-import javax.validation.constraints.NotBlank
+import javax.inject.Singleton
 
-@ConfigMapping(prefix = "sonar")
-interface SonarConfig {
-    @NotBlank
-    fun url(): String
 
-    fun usernameOrToken(): Optional<String>
+@Singleton
+class SonarConfig constructor(
+    @ConfigProperty(name = "sonar.url")
+    val url: String,
 
-    fun password(): Optional<String>
+    @ConfigProperty(name = "sonar.username-or-token")
+    usernameOrToken: Optional<String>,
 
-    @NotBlank
-    fun fetchIntervalCron(): String
+    @ConfigProperty(name = "sonar.password")
+    password: Optional<String>,
+
+    @ConfigProperty(name = "sonar.project-includes")
+    projectIncludes: Optional<List<String>>,
+
+    @ConfigProperty(name = "sonar.metric-keys")
+    val metricKeys: List<String>,
+
+    @ConfigProperty(name = "sonar.fetch-interval-cron")
+    val fetchIntervalCronString: String
+) {
+    val usernameOrToken: String? = usernameOrToken.orElse(null)
+    val password: String? = password.orElse(null)
+    val projectIncludes: List<String> = projectIncludes.orElseGet { emptyList() }
 }
-
-

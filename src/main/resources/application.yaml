@@ -1,7 +1,16 @@
 sonar:
   url: https://sonarcloud.io/api
-  fetch-interval-cron: 1h
-  username-or-token: ""
+  fetch-interval-cron: 1m
+  project-includes:
+    - marmer_code-brunch-calc
+    - io.github.marmer.testutils:hamcrest-matcher-generator
+  metric-keys:
+    - bugs
+    - code_smells
+    - vulnerabilities
+    - security_hotspots
+    - coverage
+    - duplicated_lines_density
 quarkus:
   application:
     name: Quality Owl
