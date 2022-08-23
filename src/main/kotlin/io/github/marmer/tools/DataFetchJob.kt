@@ -19,17 +19,34 @@ class DataFetchJob(private val sonarConfig: SonarConfig) {
 
     @Scheduled(every = "{sonar.fetch-interval-cron}")
     fun fetchData() {
-        Log.infof("Weeheh ... Fetching from: ${sonarConfig.url}")
-        Log.infof("Weeheh ... For User or Token: ${sonarConfig.usernameOrToken}")
-        Log.infof("Weeheh ... For Projec Includes: ${sonarConfig.projectIncludes}")
-        Log.infof("Weeheh ... For Metric Keys: ${sonarConfig.metricKeys}")
-
-        sonarConfig.projectIncludes.map {
-            sonarClient.getCoverage(
-                it,
-                sonarConfig.metricKeys.joinToString(",")
-            )
-        }.forEach(Log::infof)
+        if (sonarConfig.projectIncludes.isEmpty())
+            getAllProjects().components
+                .map { it.key }
+                .map { getMetrics(it) }
+                .forEach { Log.info(it) }
+        else {
+            sonarConfig.projectIncludes.map {
+                getMetrics(it)
+            }.forEach { Log.info(it) }
+        }
     }
+
+    private fun getAllProjects() = sonarClient.getProjects(listOf("TRK", "APP"), 500)
+
+    private fun getMetrics(it: String) =
+        sonarClient.getMetrics(
+            it,
+            sonarConfig.metricKeys.joinToString(",")
+        )
+
+
 }
 
+// TODO: marmer 23.08.2022 Tests
+// TODO: marmer 23.08.2022 Cleanup!
+// TODO: marmer 23.08.2022 Persistence!
+// TODO: marmer 23.08.2022 Top X improved (only if old data exist)
+// TODO: marmer 23.08.2022 Top X At all (
+// TODO: marmer 23.08.2022 Only Changed Projects?
+// TODO: marmer 23.08.2022 UI? ... maybe ;)
+// TODO: marmer 23.08.2022 Run with Docker

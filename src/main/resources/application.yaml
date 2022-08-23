@@ -1,6 +1,8 @@
 sonar:
   url: https://sonarcloud.io/api
   fetch-interval-cron: 1m
+  username-or-token:
+  password:
   project-includes:
     - marmer_code-brunch-calc
     - io.github.marmer.testutils:hamcrest-matcher-generator
