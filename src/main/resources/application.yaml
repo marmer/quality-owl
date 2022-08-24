@@ -27,6 +27,8 @@ quarkus:
       console:
         json: false
 "%test":
+  sonar:
+    fetch-interval-cron: disabled
   quarkus:
     log:
       console:

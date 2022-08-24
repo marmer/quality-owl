@@ -17,6 +17,7 @@ interface SonarClient {
         @QueryParam("metricKeys") metricKeys: String
     ): KomponentMetricsResponseDTO
 
+
     class KomponentMetricsResponseDTO {
         lateinit var component: Component
 

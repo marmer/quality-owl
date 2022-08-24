@@ -19,6 +19,8 @@ class DataFetchJob(private val sonarConfig: SonarConfig) {
 
     @Scheduled(every = "{sonar.fetch-interval-cron}")
     fun fetchData() {
+
+
         if (sonarConfig.projectIncludes.isEmpty())
             getAllProjects().components
                 .map { it.key }
