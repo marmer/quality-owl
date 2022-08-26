@@ -44,11 +44,4 @@ class DataFetchJob(private val sonarConfig: SonarConfig) {
 
 }
 
-// TODO: marmer 23.08.2022 Tests
-// TODO: marmer 23.08.2022 Cleanup!
-// TODO: marmer 23.08.2022 Persistence!
-// TODO: marmer 23.08.2022 Top X improved (only if old data exist)
-// TODO: marmer 23.08.2022 Top X At all (
-// TODO: marmer 23.08.2022 Only Changed Projects?
-// TODO: marmer 23.08.2022 UI? ... maybe ;)
-// TODO: marmer 23.08.2022 Run with Docker
+
