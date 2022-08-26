@@ -20,8 +20,8 @@ import java.time.ZonedDateTime
 import javax.inject.Inject
 
 @QuarkusTest
-@TestProfile(TrendsAcceptenceTest.WithAuthAndProjectIncludes::class)
-class TrendsAcceptenceTest {
+@TestProfile(MetricDiffAcceptenceTest.WithAuthAndProjectIncludes::class)
+class MetricDiffAcceptenceTest {
 
     @Inject
     lateinit var underTest: MetricsUpdater
