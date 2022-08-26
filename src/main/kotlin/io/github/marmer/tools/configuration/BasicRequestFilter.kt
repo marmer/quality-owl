@@ -1,4 +1,4 @@
-package io.github.marmer.tools
+package io.github.marmer.tools.configuration
 
 import java.util.*
 import javax.annotation.Priority

@@ -1,10 +1,9 @@
-package io.github.marmer.tools
+package io.github.marmer.tools.adapter.sonar
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.QueryParam
-
 
 @Path("/")
 @RegisterRestClient(configKey = "sonar")
@@ -69,4 +68,3 @@ interface SonarClient {
         }
     }
 }
-

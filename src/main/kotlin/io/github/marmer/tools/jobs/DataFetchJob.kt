@@ -1,5 +1,7 @@
-package io.github.marmer.tools
+package io.github.marmer.tools.jobs
 
+import io.github.marmer.tools.adapter.sonar.SonarClient
+import io.github.marmer.tools.configuration.SonarConfig
 import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
 import org.eclipse.microprofile.rest.client.inject.RestClient
@@ -43,5 +45,3 @@ class DataFetchJob(private val sonarConfig: SonarConfig) {
 
 
 }
-
-

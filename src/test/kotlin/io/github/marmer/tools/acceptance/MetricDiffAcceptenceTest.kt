@@ -32,7 +32,6 @@ class MetricDiffAcceptenceTest {
     companion object {
         val clientAndServer: ClientAndServer = ClientAndServer.startClientAndServer()
 
-
         @JvmStatic
         @AfterAll
         fun tearDownAll() {
@@ -43,14 +42,11 @@ class MetricDiffAcceptenceTest {
     @BeforeEach
     fun setUp() {
         clientAndServer.reset()
-
-
     }
 
 
     @Test
     fun `Metrics and diffs should be given correctly for all metrics and the requested project`() {
-        // Preparation
         val firstNow = nowIs(2011, 7, 9)
         firstProjectMetricsAre(
             """
@@ -76,6 +72,7 @@ class MetricDiffAcceptenceTest {
                 }
             """.trimIndent()
         )
+        underTest.updateMetrics()
 
         val secondNow = nowIs(2011, 10, 9)
         firstProjectMetricsAre(
@@ -102,17 +99,16 @@ class MetricDiffAcceptenceTest {
                 }
             """.trimIndent()
         )
+        underTest.updateMetrics()
 
-
-        // Execution
-        val result = underTest.updateMetrics()
-
-        // Assertion
         RestAssured.given()
             .`when`()
             .queryParam("limit", "1")
             .queryParam("since", "2011-06-08")
-            .get("/diff").then().statusCode(200).body(
+            .get("/diffs")
+            .then()
+            .statusCode(200)
+            .body(
                 CoreMatchers.`is`(
                     """
                         [

@@ -1,4 +1,4 @@
-package io.github.marmer.tools
+package io.github.marmer.tools.configuration
 
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import java.util.*

@@ -1,4 +1,4 @@
-package io.github.marmer.tools
+package io.github.marmer.tools.ui
 
 import io.quarkus.qute.Template
 import io.quarkus.qute.TemplateInstance
