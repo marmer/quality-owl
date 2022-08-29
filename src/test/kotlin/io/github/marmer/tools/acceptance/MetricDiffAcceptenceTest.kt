@@ -122,13 +122,19 @@ class MetricDiffAcceptenceTest {
                                 "name": "code_smells",
                                 "old": "534",
                                 "recent": "576",
-                                "delta": "42"
+                                "delta": {
+                                    "absolut": "42",
+                                    "relative": "7,9%"
+                                }
                               },
                               {
                                 "name": "bugs",
                                 "old": "1337",
                                 "recent": "1234",
-                                "delta": "-103"
+                                "delta": {
+                                    "absolut": "-103",
+                                    "relative": "-7,7%"
+                                }
                               }
                             ]
                           }
