@@ -14,7 +14,7 @@ sonar:
     - coverage
     - duplicated_lines_density
     - sqale_index #Technical Dept. Use for Comparison! ;)
-quality-owl:
+persistence:
   output-dir: ./target/persistence
 quarkus:
   application:
