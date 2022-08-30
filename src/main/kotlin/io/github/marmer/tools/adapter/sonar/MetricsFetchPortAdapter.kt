@@ -6,11 +6,14 @@ import io.github.marmer.tools.domain.model.Measure
 import io.github.marmer.tools.usecases.ports.MetricsFetchPort
 import io.quarkus.logging.Log
 import org.eclipse.microprofile.rest.client.inject.RestClient
+import java.time.Clock
+import java.time.LocalDate
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
 @ApplicationScoped
-class MetricsFetchPortAdapter(private val sonarConfig: SonarConfig) : MetricsFetchPort {
+class MetricsFetchPortAdapter(private val sonarConfig: SonarConfig, val clock: Clock) :
+    MetricsFetchPort {
 
     /**
      * Hacky Workaround because constructor injection does not work for RestClient
@@ -36,6 +39,7 @@ class MetricsFetchPortAdapter(private val sonarConfig: SonarConfig) : MetricsFet
         ComponentMetric(
             it.component.key,
             it.component.name,
+            LocalDate.now(clock),
             it.component.measures.map { measure ->
                 Measure(
                     measure.metric,
