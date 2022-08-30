@@ -1,47 +1,26 @@
 package io.github.marmer.tools.jobs
 
-import io.github.marmer.tools.adapter.sonar.SonarClient
-import io.github.marmer.tools.configuration.SonarConfig
-import io.quarkus.logging.Log
+import io.github.marmer.tools.usecases.ports.MetricsFetchPort
 import io.quarkus.scheduler.Scheduled
-import org.eclipse.microprofile.rest.client.inject.RestClient
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReentrantLock
 import javax.enterprise.context.ApplicationScoped
-import javax.inject.Inject
 
 @ApplicationScoped
-class DataFetchJob(private val sonarConfig: SonarConfig) {
+class DataFetchJob(
+    private val metricsFetchPort: MetricsFetchPort,
+) {
 
-
-    /**
-     * Hacky Workaround because constructor injection does not work for RestClient
-     */
-    @Inject
-    @field: RestClient
-    internal lateinit var sonarClient: SonarClient
+    val lock: Lock = ReentrantLock()
 
     @Scheduled(every = "{sonar.fetch-interval-cron}")
     fun fetchData() {
-
-
-        if (sonarConfig.projectIncludes.isEmpty())
-            getAllProjects().components
-                .map { it.key }
-                .map { getMetrics(it) }
-                .forEach { Log.info(it) }
-        else {
-            sonarConfig.projectIncludes.map {
-                getMetrics(it)
-            }.forEach { Log.info(it) }
-        }
+        if (lock.tryLock())
+            try {
+                metricsFetchPort.fetchComponentMetrics()
+            } finally {
+                lock.unlock()
+            }
     }
-
-    private fun getAllProjects() = sonarClient.getProjects(listOf("TRK", "APP"), 500)
-
-    private fun getMetrics(it: String) =
-        sonarClient.getMetrics(
-            it,
-            sonarConfig.metricKeys.joinToString(",")
-        )
-
 
 }

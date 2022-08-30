@@ -14,10 +14,10 @@ interface SonarClient {
     fun getMetrics(
         @QueryParam("component") component: String,
         @QueryParam("metricKeys") metricKeys: String
-    ): KomponentMetricsResponseDTO
+    ): ComponentMetricsResponseDTO
 
 
-    class KomponentMetricsResponseDTO {
+    class ComponentMetricsResponseDTO {
         lateinit var component: Component
 
         class Component {

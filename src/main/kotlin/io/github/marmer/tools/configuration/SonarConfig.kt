@@ -2,10 +2,10 @@ package io.github.marmer.tools.configuration
 
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import java.util.*
-import javax.inject.Singleton
+import javax.enterprise.context.ApplicationScoped
 
 
-@Singleton
+@ApplicationScoped
 class SonarConfig constructor(
     @ConfigProperty(name = "sonar.url")
     val url: String,
