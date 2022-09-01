@@ -1,8 +1,8 @@
 package io.github.marmer.tools.usecases.ports
 
-import io.github.marmer.tools.domain.model.ComponentMetric
+import io.github.marmer.tools.domain.model.ComponentState
 
 interface MetricsFetchPort {
-    fun fetchComponentMetrics(): List<ComponentMetric>
+    fun fetchComponentMetrics(): List<ComponentState>
 
 }

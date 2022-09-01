@@ -115,26 +115,22 @@ class MetricDiffAcceptenceTest {
                           {
                             "key": "fancy-beaver.in:da-house",
                             "name": "fbidh",
-                            "oldDate": "2011-07-09",
-                            "recentDate": "2011-10-09",
+                            "startDate": "2011-07-09",
+                            "endDate": "2011-10-09",
                             "metricDiffs": [
                               {
                                 "name": "code_smells",
-                                "old": "534",
-                                "recent": "576",
-                                "delta": {
-                                    "absolut": "42",
-                                    "relative": "7,9%"
-                                }
+                                "start": "534",
+                                "end": "576",
+                                "deltaAbsolut": "42",
+                                "deltaRelativeToStart": "7,9"
                               },
                               {
                                 "name": "bugs",
-                                "old": "1337",
-                                "recent": "1234",
-                                "delta": {
-                                    "absolut": "-103",
-                                    "relative": "-7,7%"
-                                }
+                                "start": "1337",
+                                "end": "1234",
+                                "deltaAbsolut": "-103",
+                                "deltaRelativeToStart": "-7,7"
                               }
                             ]
                           }
@@ -159,7 +155,6 @@ class MetricDiffAcceptenceTest {
 
     // TODO: marmer 26.08.2022 Metrics can be added and/or removed
 
-    // TODO: marmer 23.08.2022 Cleanup!
     // TODO: marmer 23.08.2022 Persistence!
     // TODO: marmer 23.08.2022 Top X improved (only if old data exist)
     // TODO: marmer 23.08.2022 Top X At all (

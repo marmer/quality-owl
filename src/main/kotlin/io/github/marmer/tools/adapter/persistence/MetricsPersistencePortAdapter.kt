@@ -1,6 +1,6 @@
 package io.github.marmer.tools.adapter.persistence
 
-import io.github.marmer.tools.domain.model.ComponentMetric
+import io.github.marmer.tools.domain.model.ComponentState
 import io.github.marmer.tools.domain.model.Measure
 import io.github.marmer.tools.usecases.ports.MetricsPersistencePort
 import java.time.LocalDate
@@ -12,25 +12,38 @@ class MetricsPersistencePortAdapter() : MetricsPersistencePort {
     private var componentMetricsByKey: Map<String, ComponentMetricDbo> = emptyMap()
 
     @Synchronized
-    override fun persist(componentMetric: ComponentMetric) {
+    override fun persist(componentState: ComponentState) {
         componentMetricsByKey +=
-            Pair(componentMetric.key, getComponentMetricDboBy(componentMetric)
+            Pair(componentState.key, getComponentMetricDboBy(componentState)
                 .run {
                     copy(
                         measuresByDate = measuresByDate + Pair(
-                            componentMetric.date,
-                            componentMetric.measures
+                            componentState.date,
+                            componentState.measures
                         )
                     )
                 })
     }
 
-    private fun getComponentMetricDboBy(componentMetric: ComponentMetric) =
-        (componentMetricsByKey.get(componentMetric.key)
+    override fun findOneComponentStatePerComponentClosestTo(start: LocalDate): List<ComponentState> {
+        TODO("Not yet implemented")
+
+        // TODO: marmer 31.08.2022 Exact finding
+        // TODO: marmer 31.08.2022 Close findings
+
+        // TODO: marmer 31.08.2022 no finding at all => not served
+
+        // TODO: marmer 31.08.2022 only one finding closer to start Date => no end date and end
+        // TODO: marmer 31.08.2022 only one finding closer to end Date => no start date and start
+        // TODO: marmer 31.08.2022 only one finding in the middle of start and end date => no start date
+    }
+
+    private fun getComponentMetricDboBy(componentState: ComponentState) =
+        (componentMetricsByKey.get(componentState.key)
             ?: ComponentMetricDbo(
-                componentMetric.key,
-                componentMetric.name,
-                componentMetric.date,
+                componentState.key,
+                componentState.name,
+                componentState.date,
                 emptyMap()
             ))
 }

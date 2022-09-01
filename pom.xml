@@ -107,6 +107,12 @@
       <version>5.0.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.23.1</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
@@ -155,6 +161,31 @@
                 <maven.home>${maven.home}</maven.home>
               </systemPropertyVariables>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+        <version>2.1.0</version>
+        <configuration>
+          <entryPointClassPackage>io.github.marmer.tools.test.asserter</entryPointClassPackage>
+          <packages>
+            <param>io.github.marmer.tools</param>
+          </packages>
+          <hierarchical>true</hierarchical>
+          <cleanTargetDir>true</cleanTargetDir>
+          <generateAssertions>true</generateAssertions>
+          <generateBddAssertions>true</generateBddAssertions>
+          <generateSoftAssertions>true</generateSoftAssertions>
+          <generateJUnitSoftAssertions>true</generateJUnitSoftAssertions>
+          <generatedSourcesScope>test</generatedSourcesScope>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-assertions</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

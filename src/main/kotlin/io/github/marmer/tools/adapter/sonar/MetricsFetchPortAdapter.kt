@@ -1,7 +1,7 @@
 package io.github.marmer.tools.adapter.sonar
 
 import io.github.marmer.tools.configuration.SonarConfig
-import io.github.marmer.tools.domain.model.ComponentMetric
+import io.github.marmer.tools.domain.model.ComponentState
 import io.github.marmer.tools.domain.model.Measure
 import io.github.marmer.tools.usecases.ports.MetricsFetchPort
 import io.quarkus.logging.Log
@@ -22,7 +22,7 @@ class MetricsFetchPortAdapter(private val sonarConfig: SonarConfig, val clock: C
     @field: RestClient
     private lateinit var sonarClient: SonarClient
 
-    override fun fetchComponentMetrics(): List<ComponentMetric> {
+    override fun fetchComponentMetrics(): List<ComponentState> {
         val projectKeys =
             if (sonarConfig.projectIncludes.isEmpty())
                 getAllProjects().components.map { it.key }
@@ -36,7 +36,7 @@ class MetricsFetchPortAdapter(private val sonarConfig: SonarConfig, val clock: C
     }
 
     private fun toMetric(it: SonarClient.ComponentMetricsResponseDTO) =
-        ComponentMetric(
+        ComponentState(
             it.component.key,
             it.component.name,
             LocalDate.now(clock),

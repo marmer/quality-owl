@@ -2,11 +2,10 @@ package io.github.marmer.tools.domain.model
 
 import java.time.LocalDate
 
-data class ComponentMetric(
+data class ComponentState(
     val key: String,
     val name: String,
     val date: LocalDate,
     val measures: List<Measure>
 )
 
-data class Measure(val metric: String, val value: Int)
