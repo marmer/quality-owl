@@ -4,17 +4,19 @@ import io.github.marmer.tools.domain.model.ComponentState
 import io.github.marmer.tools.domain.model.Measure
 import io.github.marmer.tools.usecases.ports.MetricsPersistencePort
 import java.time.LocalDate
+import java.time.Period
 import javax.enterprise.context.ApplicationScoped
+import kotlin.math.abs
 
 @ApplicationScoped
-class MetricsPersistencePortAdapter() : MetricsPersistencePort {
+class MetricsPersistencePortAdapter : MetricsPersistencePort {
 
-    private var componentMetricsByKey: Map<String, ComponentMetricDbo> = emptyMap()
+    private var componentMetricsByKey: Map<String, ComponentDbo> = emptyMap()
 
     @Synchronized
     override fun persist(componentState: ComponentState) {
-        componentMetricsByKey +=
-            Pair(componentState.key, getComponentMetricDboBy(componentState)
+        componentMetricsByKey =
+            componentMetricsByKey + Pair(componentState.key, getComponentMetricDboBy(componentState)
                 .run {
                     copy(
                         measuresByDate = measuresByDate + Pair(
@@ -25,8 +27,18 @@ class MetricsPersistencePortAdapter() : MetricsPersistencePort {
                 })
     }
 
-    override fun findOneComponentStatePerComponentClosestTo(start: LocalDate): List<ComponentState> {
-        TODO("Not yet implemented")
+    override fun findOneComponentStatePerComponentClosestTo(date: LocalDate): List<ComponentState> {
+        return componentMetricsByKey.values
+            .map {
+                val closestDate = it.measuresByDate.keys.closestTo(date)
+
+                ComponentState(
+                    it.key,
+                    it.name,
+                    closestDate,
+                    it.measuresByDate[closestDate] ?: emptyList()
+                )
+            }
 
         // TODO: marmer 31.08.2022 Exact finding
         // TODO: marmer 31.08.2022 Close findings
@@ -40,17 +52,23 @@ class MetricsPersistencePortAdapter() : MetricsPersistencePort {
 
     private fun getComponentMetricDboBy(componentState: ComponentState) =
         (componentMetricsByKey.get(componentState.key)
-            ?: ComponentMetricDbo(
+            ?: ComponentDbo(
                 componentState.key,
                 componentState.name,
-                componentState.date,
                 emptyMap()
             ))
 }
 
-private data class ComponentMetricDbo(
+private fun Set<LocalDate>.closestTo(date: LocalDate): LocalDate {
+    return minByOrNull {
+        abs(
+            Period.between(date, it).days
+        )
+    }!!
+}
+
+private data class ComponentDbo(
     val key: String,
     val name: String,
-    val date: LocalDate,
     val measuresByDate: Map<LocalDate, List<Measure>>
 )

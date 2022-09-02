@@ -40,11 +40,13 @@ class Testdata(testClass: KClass<*>) {
     fun <T : Any> next(type: KClass<T>): T =
         easyRandom.nextObject(type.java)
 
+    inline fun <reified T : Any> next() = next(T::class)
+
     fun <T> next(type: Class<T>, count: Int): List<T> =
         easyRandom.objects(type, count).collect(Collectors.toList())
 
     fun <T : Any> next(type: KClass<T>, count: Int): List<T> =
         easyRandom.objects(type.java, count).collect(Collectors.toList())
 
-
+    inline fun <reified T : Any> next(count: Int) = next(T::class, count)
 }

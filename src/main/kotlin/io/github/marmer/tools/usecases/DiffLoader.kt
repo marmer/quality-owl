@@ -39,23 +39,17 @@ class DiffLoader(private val metricsPersistencePort: MetricsPersistencePort) {
         startMeasure: List<Measure>,
         endMeasure: List<Measure>
     ): Map<String, MetricDiff> {
+        val startMeasuresByKey = startMeasure.map { Pair(it.metric, it.value) }.toMap()
+        val endMeasuresByKey = endMeasure.map { Pair(it.metric, it.value) }.toMap()
 
-        val result =
-            startMeasure.map { Pair(it.metric, MetricDiff(it.value, null)) }.toMap(mutableMapOf())
-
-
-
-
-        endMeasure.forEach {
-            result.merge(
-                it.metric,
-                MetricDiff(null, it.value)
-            ) { startDiff, endDiff -> MetricDiff(startDiff.start, endDiff.end) }
-        }
-
-        return result
-
-
+        return (startMeasuresByKey + endMeasuresByKey).keys
+            .map {
+                Pair(
+                    it,
+                    MetricDiff(startMeasuresByKey.get(it), endMeasuresByKey.get(it))
+                )
+            }
+            .toMap()
     }
 
 
